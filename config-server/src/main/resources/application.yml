@@ -1,0 +1,32 @@
+server:
+  port: 8888
+spring:
+  profiles:
+    active: git
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: ${NATIVE_SEARCH_LOCATIONS}
+        git:
+          deleteUntrackedBranches: true
+          clone-on-start: true
+          uri: https://github.com/buboyn/config-server-sandbox.git
+          default-label: ${GIT_CONFIG_BRANCH}
+          username: ${GIT_USER}
+          password: ${GIT_PASSWORD}
+          search-paths:
+            - catalog/{application}
+            - catalog/{application}/{profile}
+            - order/{application}
+            - order/{application}/{profile}
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
